@@ -12,14 +12,15 @@ from st_pages import Page, show_pages, add_page_title
 # for each section, try to replicate the respective dashboards + see if can add additional filters and sliders
 
 # Optional -- adds the title and icon to the current page
-add_page_title()
+# add_page_title()
+
+st.header("Tiktok Analytics Dashboard")
 
 # Specify what pages should be shown in the sidebar, and what their titles and icons
 # should be
 show_pages(
     [
         Page("app.py", "Home", "🏠"),
-        Page("pages/upload.py", "File Uploader", "📄"),
         Page("pages/overview.py", "Overview", "🌐"),
         Page("pages/content.py", "Content", "📖"),
         Page("pages/followers.py", "Followers", "👥"),
