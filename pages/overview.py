@@ -4,11 +4,13 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import statsmodels.api as sm
+from millify import millify
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from st_aggrid import AgGrid
 import io
 from st_pages import Page, show_pages, add_page_title
+from streamlit_extras.metric_cards import style_metric_cards
 
 # Set page title
 st.set_page_config(page_title="Overview - Tiktok Analytics Dashboard", page_icon = "📊", layout = "centered", initial_sidebar_state = "auto")
@@ -125,21 +127,39 @@ if uploaded_files:
     data_list = []
     for uploaded_file in uploaded_files:
         # read the file
-        st.write("▾ Filename:", uploaded_file.name)
-        bytes_data = uploaded_file.read()
-        data = None
-        if uploaded_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-            data = pd.read_excel(io.BytesIO(bytes_data))
-            AgGrid(data)
-        else:
-            data = pd.read_csv(io.StringIO(bytes_data.decode('utf-8')))
-            AgGrid(data)
+        with st.expander("View uploaded data"):
+            st.write("▾ Filename:", uploaded_file.name)
+            bytes_data = uploaded_file.read()
+            data = None
+            if uploaded_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                data = pd.read_excel(io.BytesIO(bytes_data))
+                AgGrid(data)
+            else:
+                data = pd.read_csv(io.StringIO(bytes_data.decode('utf-8')))
+                AgGrid(data)
 
         # preview the data
         #st.write('Preview of', uploaded_file.name)
         # st.write(data)
 
         data_list.append(data)
+
+
+        # Replace "data" with your actual dataframe
+        sums = data.sum()
+        #st.write(sums)
+        col1, col2, col3, col4, col5 = st.columns((5))
+        with col1:
+            st.metric(label="Video views", value=sums[1])
+        with col2:
+            st.metric(label="Profile views", value=sums[2])
+        with col3:
+            st.metric(label="Likes", value=sums[3])
+        with col4:
+            st.metric(label="Comments", value=sums[4])
+        with col5:
+            st.metric(label="Shares", value=sums[5])
+        #style_metric_cards()
 
         # Generate specific charts based on the file name
         if uploaded_file.name == "Last 60 days.xlsx" or uploaded_file.name == "Last 60 days.csv":
