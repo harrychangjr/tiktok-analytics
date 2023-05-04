@@ -4,6 +4,8 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import statsmodels.api as sm
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 from st_aggrid import AgGrid
 import io
 from st_pages import Page, show_pages, add_page_title

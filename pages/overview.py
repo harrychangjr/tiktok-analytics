@@ -4,6 +4,8 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import statsmodels.api as sm
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 from st_aggrid import AgGrid
 import io
 from st_pages import Page, show_pages, add_page_title
@@ -20,6 +22,7 @@ st.markdown("""Upload your files here to load your data!
 
 def plot_chart(data, chart_type, x_var, y_var, z_var=None, show_regression_line=False, show_r_squared=False):
     scatter_marker_color = 'blue'
+    regression_line_color = 'red'
     if chart_type == "line":
         fig = px.line(data, x=x_var, y=y_var)
 
@@ -27,23 +30,31 @@ def plot_chart(data, chart_type, x_var, y_var, z_var=None, show_regression_line=
         fig = px.bar(data, x=x_var, y=y_var)
 
     elif chart_type == "scatter":
-        fig = px.scatter(data, x=x_var, y=y_var, color_discrete_sequence=[scatter_marker_color], trendline='ols' if show_regression_line else None)
-        if show_regression_line:
-            fig.update_traces(line=dict(color='red'), selector=dict(mode='lines'))
-            if show_r_squared:
-                X = sm.add_constant(data[x_var])
-                y = data[y_var]
-                model = sm.OLS(y, X).fit()
-                r_squared = model.rsquared
-                fig.add_annotation(
-                    x=data[x_var].max(),
-                    y=data[y_var].max(),
-                    text=f"R² = {r_squared:.2f}",
-                    showarrow=False,
-                    font=dict(size=14),
-                    bgcolor="white",
-                    opacity=0.7
-                )
+        fig = px.scatter(data, x=x_var, y=y_var, color_discrete_sequence=[scatter_marker_color])
+
+        if show_regression_line and x_var != 'Date':
+            X = data[x_var].values.reshape(-1, 1)
+            y = data[y_var].values.reshape(-1, 1)
+            model = LinearRegression().fit(X, y)
+            y_pred = model.predict(X)
+            r_squared = r2_score(y, y_pred)  # Calculate R-squared value
+
+            fig.add_trace(
+                go.Scatter(x=data[x_var], y=y_pred[:, 0], mode='lines', name='Regression Line', line=dict(color=regression_line_color))
+            )
+
+            # Add R-squared value as a text annotation
+            fig.add_annotation(
+                x=data[x_var].max(),
+                y=y_pred[-1, 0],
+                text=f"R-squared: {r_squared:.4f}",
+                showarrow=False,
+                font=dict(size=14),
+                bgcolor='rgba(255, 255, 255, 0.8)',
+                bordercolor='black',
+                borderwidth=1,
+                borderpad=4
+            )
 
     elif chart_type == "heatmap":
         fig = px.imshow(data, color_continuous_scale='Viridis')
