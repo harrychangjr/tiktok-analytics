@@ -28,20 +28,18 @@ uploaded_files = st.file_uploader(
 
 if uploaded_files:
     data_list = []
-    for uploaded_file in uploaded_files:
+    
         # read the file
-        st.write("▾ Filename:", uploaded_file.name)
-        bytes_data = uploaded_file.read()
-        data = None
-        if uploaded_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-            data = pd.read_excel(io.BytesIO(bytes_data))
-            AgGrid(data)
-        else:
-            data = pd.read_csv(io.StringIO(bytes_data.decode('utf-8')))
-            AgGrid(data)
-
-        # preview the data
-        #st.write('Preview of', uploaded_file.name)
-        # st.write(data)
+    with st.expander("View uploaded data - data covered over 7-day period only"):
+        for uploaded_file in uploaded_files:
+            st.write("▾ Filename:", uploaded_file.name)
+            bytes_data = uploaded_file.read()
+            data = None
+            if uploaded_file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                data = pd.read_excel(io.BytesIO(bytes_data))
+                AgGrid(data)
+            else:
+                data = pd.read_csv(io.StringIO(bytes_data.decode('utf-8')))
+                AgGrid(data)
 
         data_list.append(data)
