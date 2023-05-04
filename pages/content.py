@@ -1,11 +1,21 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+import statsmodels.api as sm
 from st_aggrid import AgGrid
 import io
 from st_pages import Page, show_pages, add_page_title
 
+# Set page title
+st.set_page_config(page_title="Content - Tiktok Analytics Dashboard", page_icon = "📊", layout = "centered", initial_sidebar_state = "auto")
+
 st.header("Content")
-st.markdown("Upload your files here to load your data!")
+st.markdown("""Upload your files here to load your data!
+
+*'Trending videos', 'Video Posts' (xlsx or csv format)*
+""")
 
 uploaded_files = st.file_uploader(
     "Choose CSV or Excel files to upload",

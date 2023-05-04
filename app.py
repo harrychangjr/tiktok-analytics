@@ -14,6 +14,9 @@ from st_pages import Page, show_pages, add_page_title
 # Optional -- adds the title and icon to the current page
 # add_page_title()
 
+# Set page title
+st.set_page_config(page_title="Tiktok Analytics Dashboard", page_icon = "📊", layout = "centered", initial_sidebar_state = "auto")
+
 st.header("Tiktok Analytics Dashboard")
 
 # Specify what pages should be shown in the sidebar, and what their titles and icons
