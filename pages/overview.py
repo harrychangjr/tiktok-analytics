@@ -142,12 +142,16 @@ if uploaded_files:
         #st.write('Preview of', uploaded_file.name)
         # st.write(data)
 
+        # convert "Date" column to datetime object and set as index
+        #data['Date'] = pd.to_datetime(data['Date'])
+        #data.set_index('Date', inplace=True)
+
         data_list.append(data)
 
 
         # Replace "data" with your actual dataframe
         sums = data.sum()
-        #st.write(sums)
+        #st.write(sums) # To check table values for indexing
         col1, col2, col3, col4, col5 = st.columns((5))
         with col1:
             st.metric(label="Video views", value=sums[1])
@@ -170,6 +174,16 @@ if uploaded_files:
     
             z_var_options = ["None"] + list(data.columns)
             z_var = st.sidebar.selectbox("Select Z variable for 3D charts (if applicable)", z_var_options)
+            
+            # Allow user to select time frequency for resampling
+            #time_frequency = st.sidebar.selectbox("Select time frequency", ["Day", "Week", "Month"])
+
+            #if time_frequency == "Week":
+                #data_resampled = data.resample('W').sum()
+            #elif time_frequency == "Month":
+                #data_resampled = data.resample('M').sum()
+            #else:
+                #data_resampled = data
 
             tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(["Line", "Bar", "Scatterplot", "Heatmap", 
                                                             "3D Scatterplot", "3D Lineplot", "3D Surfaceplot", "Radar chart"])
