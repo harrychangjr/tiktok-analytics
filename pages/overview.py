@@ -21,7 +21,7 @@ st.markdown("""Upload your files here to load your data!
 """)
 
 def plot_chart(data, chart_type, x_var, y_var, z_var=None, show_regression_line=False, show_r_squared=False):
-    scatter_marker_color = 'blue'
+    scatter_marker_color = 'green'
     regression_line_color = 'red'
     if chart_type == "line":
         fig = px.line(data, x=x_var, y=y_var)
@@ -57,7 +57,7 @@ def plot_chart(data, chart_type, x_var, y_var, z_var=None, show_regression_line=
             )
 
     elif chart_type == "heatmap":
-        fig = px.imshow(data, color_continuous_scale='Viridis')
+        fig = px.imshow(data, color_continuous_scale='Inferno')
 
     elif chart_type == "scatter_3d":
         if z_var is not None:
