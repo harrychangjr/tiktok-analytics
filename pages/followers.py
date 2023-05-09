@@ -10,6 +10,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from st_aggrid import AgGrid
 import io
+import openpyxl
 #from st_pages import Page, show_pages, add_page_title
 
 # Set page title
