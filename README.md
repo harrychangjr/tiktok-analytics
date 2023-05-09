@@ -1,5 +1,5 @@
 # tiktok-analytics
-Enhanced dashboard based on data downloadable from [Tiktok Analytics](https://www.tiktok.com/analytics)
+Enhanced dashboard based on user account data downloadable from [Tiktok Analytics](https://www.tiktok.com/analytics)
 
 ## General workflow
 1. Download data from Tiktok Analytics
