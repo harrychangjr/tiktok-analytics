@@ -43,7 +43,7 @@ if uploaded_files:
 
             data_list.append(data)
 
-    tab1, tab2, tab3, tab4 = st.tabs(["Follower Activity", "Gender", "Top Territories", "Followers"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Follower Activity", "Gender", "Top Territories", "Followers", "Difference in Daily Followers"])
     for data in data_list:
         #st.write(data.columns)
         #st.write(data)
@@ -113,6 +113,27 @@ if uploaded_files:
             if 'Followers' in data.columns:
                 fig = px.line(data, x="Date", y="Followers", title="Total Followers", markers=True,
                 hover_data={'Followers': ':.2f'})
+                st.plotly_chart(fig)
+        with tab5:
+            if 'Difference in followers from previous day' in data.columns:
+                # Create a custom color scale
+                def custom_color_scale(val):
+                    if val >= 0:
+                        return 'rgba(54, 164, 235, 0.8)'
+                    else:
+                        return 'rgba(255, 77, 77, 0.8)'
+                fig = px.bar(data, x="Date", y="Difference in followers from previous day", title="Difference in Daily Followers", 
+                text='Difference in followers from previous day', color='Difference in followers from previous day',
+                hover_data={'Difference in followers from previous day': ':.2f'}, color_discrete_map={val: custom_color_scale(val) for val in data['Difference in followers from previous day']})
+                # Customize the layout
+                fig.update_layout(
+                    title="Difference in Daily Followers",
+                    xaxis_title="Date",
+                    yaxis_title="Difference in Daily Followers",
+                    showlegend=False,
+                    plot_bgcolor="white",
+                    yaxis=dict(zeroline=True, zerolinewidth=2, zerolinecolor="black"), # Add a line at y=0
+                )
                 st.plotly_chart(fig)
 
 
