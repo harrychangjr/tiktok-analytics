@@ -1,7 +1,7 @@
 streamlit
 pandas
 numpy
-plotly
+plotly==5.14.1
 statsmodels
 millify
 scikit-learn
