@@ -1,5 +1,5 @@
 import streamlit as st
-from st_pages import Page, show_pages, add_page_title
+#from st_pages import Page, show_pages, add_page_title
 
 ### Structure ###
 # Streamlit file uploader to upload following files:
@@ -19,17 +19,7 @@ st.set_page_config(page_title="Tiktok Analytics Dashboard", page_icon = "📊", 
 
 st.header("Tiktok Analytics Dashboard")
 
-# Specify what pages should be shown in the sidebar, and what their titles and icons
-# should be
-show_pages(
-    [
-        Page("app.py", "Home", "🏠"),
-        Page("pages/overview.py", "Overview", "🌐"),
-        Page("pages/content.py", "Content", "📖"),
-        Page("pages/followers.py", "Followers", "👥"),
 
-    ]
-)
 
 def social_icons(width=24, height=24, **kwargs):
         icon_template = '''

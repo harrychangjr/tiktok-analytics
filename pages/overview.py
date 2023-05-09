@@ -9,7 +9,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from st_aggrid import AgGrid
 import io
-from st_pages import Page, show_pages, add_page_title
+#from st_pages import Page, show_pages, add_page_title
 from streamlit_extras.metric_cards import style_metric_cards
 
 # Set page title
