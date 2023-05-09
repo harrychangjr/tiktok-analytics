@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+plotly
+statsmodels
+millify
+scikit-learn
+st-pages
+st-aggrid
+
