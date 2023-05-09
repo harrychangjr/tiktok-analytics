@@ -21,7 +21,7 @@ st.set_page_config(page_title="Content - Tiktok Analytics Dashboard", page_icon 
 st.header("Content")
 st.markdown("""Upload your files here to load your data!
 
-*'Trending videos', 'Video Posts' (xlsx or csv format)*
+*'Trending videos' (xlsx or csv format)*
 """)
 
 uploaded_files = st.file_uploader(
@@ -48,11 +48,11 @@ if uploaded_files:
             data_list.append(data)
         #st.write(data_list)
 
-    tab1, tab2 = st.tabs(["Trending Videos", "Video Posts"])
+    #tab1, tab2 = st.tabs(["Trending Videos", "Video Posts"])
     for data in data_list:
         #st.write(data.columns)
         #st.write(data)
-        with tab1:
+        #with tab1:
             if 'video_view_within_days' in data.columns: #Trending Videos
                 # Extract hashtags using a regex pattern
                 def extract_hashtags(title):
@@ -163,7 +163,7 @@ if uploaded_files:
                         st.plotly_chart(fig)
 
 
-        with tab2:
-            if 'video_view_within_days' not in data.columns: #Video Posts
-                pass#st.write("No")
+        #with tab2:
+            #if 'video_view_within_days' not in data.columns: #Video Posts
+                #pass
         
