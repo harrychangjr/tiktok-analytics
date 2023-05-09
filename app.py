@@ -56,7 +56,7 @@ def social_icons(width=24, height=24, **kwargs):
 st.subheader("So how do I use this?")
 st.markdown("""
 Designed to provide extra value to the existing dashboard available on TikTok Analytics, individual users or businesses can download the relevant csv/xlsx files before loading them
-this custom dashboard.
+to this custom dashboard.
 
 |Section|Description|Files required|
 |--------|-----------|--------------|
