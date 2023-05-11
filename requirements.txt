@@ -10,4 +10,6 @@ emoji==2.2.0
 openpyxl
 gensim==3.3.0
 xgboost==1.6.2
+matplotlib==3.4.3
+seaborn==0.12.2
 
