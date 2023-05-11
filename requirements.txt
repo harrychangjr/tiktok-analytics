@@ -9,5 +9,5 @@ streamlit-aggrid==0.3.2
 emoji==2.2.0
 openpyxl
 gensim==3.3.0
-xgboost==1.7.2
+xgboost==1.6.2
 
