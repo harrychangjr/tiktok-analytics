@@ -7,4 +7,4 @@ Enhanced dashboard based on user account data downloadable from [Tiktok Analytic
 3. Enjoy the dashboards and visualizations!
 
 ## UPDATE
-App migrated to Hugging Face due to deployment issues. Assess the app here: https://huggingface.co/spaces/harrychangjr/tiktok_analytics
+App migrated to Hugging Face due to deployment issues. Access the app here: https://huggingface.co/spaces/harrychangjr/tiktok_analytics
