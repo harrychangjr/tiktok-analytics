@@ -8,5 +8,5 @@ scikit-learn==1.0.2
 streamlit-aggrid==0.3.2
 emoji==2.2.0
 openpyxl
-gensim
+gensim==3.3.0
 
