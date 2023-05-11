@@ -273,7 +273,7 @@ if uploaded_files:
                     tokenized_hashtags = data["Hashtags"].tolist()
                     unique_hashtags = list(set([tag for tags in tokenized_hashtags for tag in tags]))
                     # Train a word2vec model
-                    model = Word2Vec(tokenized_hashtags, vector_size=50, window=5, min_count=1, workers=4)
+                    model = Word2Vec(tokenized_hashtags, size=50, window=5, min_count=1, workers=4)
 
                     # Create a hashtag vector dictionary
                     hashtag_vectors = {tag: model.wv[tag] for tag in unique_hashtags}
