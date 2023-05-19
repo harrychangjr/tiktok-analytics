@@ -33,7 +33,7 @@ st.set_page_config(page_title="Content - Tiktok Analytics Dashboard", page_icon 
 st.header("Content")
 st.markdown("""Upload your files here to load your data!
 
-*'Trending videos' (xlsx or csv format)*
+*'Trending videos', 'Video Posts' (xlsx or csv format)*
 """)
 
 def plot_chart(data, chart_type, x_var, y_var, z_var=None, show_regression_line=False, show_r_squared=False):
@@ -153,6 +153,17 @@ if uploaded_files:
                 AgGrid(data)
 
             data_list.append(data)
+        # get common columns
+        common_columns = set.intersection(*(set(data.columns) for data in data_list))
+
+        # keep only common columns
+        dataframes = [data[common_columns] for data in data_list]
+
+        # concatenate all dataframes
+        data = pd.concat(data_list)
+
+        # drop duplicates
+        data = data.drop_duplicates()
         #st.write(data_list)
 
     #tab1, tab2 = st.tabs(["Trending Videos", "Video Posts"])
@@ -180,10 +191,66 @@ if uploaded_files:
                 data['Cleaned_title'] = data['Video title'].apply(clean_title)
                 # Add a new column to store the hashtag count
                 data['Hashtag_count'] = data['Hashtags'].apply(len)
+                # Convert the 'post time' column to datetime format
+                data['Post time'] = pd.to_datetime(data['Post time'])
+                # Create new columns for 'weekday', 'hour' and 'minute'
+                data['weekday_posted'] = data['Post time'].dt.day_name()
+                data['hour_posted'] = data['Post time'].dt.hour
+                data['min_posted'] = data['Post time'].dt.minute
                 st.write(data)
-                options = ["Total views", "Total shares", "Total likes", "Total comments", "Number of Hashtags", "Hashtag Performance"]
+                options = ["Summary", "Total views", "Total shares", "Total likes", "Total comments", "Number of Hashtags", "Hashtag Performance"]
                 selected_feature = st.selectbox(label="Select feature", options=options, index=0)
-                if selected_feature == "Total views":
+                
+                if selected_feature == "Summary":
+                    x_var = st.sidebar.selectbox("Select X variable", data.columns)
+                    y_var = st.sidebar.selectbox("Select Y variable", data.columns)
+                    show_regression_line = False
+    
+                    z_var_options = ["None"] + list(data.columns)
+                    z_var = st.sidebar.selectbox("Select Z variable for 3D charts (if applicable)", z_var_options)
+            
+
+                    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Line", "Bar", "Scatterplot", "Heatmap", 
+                                                                    "3D Scatterplot", "3D Lineplot", "3D Surfaceplot"])
+                    with tab1:
+                        st.write("Lineplot")
+                        plot_chart(data, "line", x_var, y_var)
+
+                    with tab2:
+                        st.write("Barplot")
+                        plot_chart(data, "bar", x_var, y_var)
+
+                    with tab3:
+                        st.write("Scatterplot")
+                        show_regression_line = st.checkbox("Show regression line for scatterplot")
+                        plot_chart(data, "scatter", x_var, y_var, show_regression_line=show_regression_line)
+
+                    with tab4:
+                        st.write("Heatmap")
+                        plot_chart(data, "heatmap", x_var, y_var) 
+
+                    with tab5:
+                        st.write("3D Scatterplot")
+                        if z_var != "None":
+                            plot_chart(data, "scatter_3d", x_var, y_var, z_var)    
+
+                    with tab6:
+                        st.write("3D Lineplot")
+                        if z_var != "None":
+                            plot_chart(data, "line_3d", x_var, y_var, z_var)
+
+                    with tab7:
+                        st.write("3D Surfaceplot")
+                        if z_var != "None":
+                            plot_chart(data, "surface_3d", x_var, y_var, z_var)
+
+                    #with tab8:
+                        #st.write("Radar chart for 'Last 60 days'")
+                        #radar_columns = ['Video views', 'Profile views', 'Likes', 'Comments', 'Shares']
+                        #plot_radar_chart(data, radar_columns)                       
+                        # Add more conditions for other specific file names if needed
+                
+                elif selected_feature == "Total views":
                     data = data.sort_values(by='Total views', ascending=True)
                     fig = px.bar(data, x='Total views', y='Cleaned_title', title='Views of trending videos for the week',
                             color_discrete_sequence=px.colors.qualitative.Alphabet, hover_data={'Total views': ':.2f'})
